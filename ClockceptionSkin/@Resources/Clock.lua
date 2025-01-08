@@ -16,13 +16,11 @@ function Initialize()
 				{{0,180}, {0,180}},
 				{{0,90},  {0,270}}}
 	
-	T = {0,0,0,0,0}
-	Tmid = {0}
+	T = 0
 	
-	Time = {0, 0, 0, 0}
-	Rotating = {false, false, false, false}
-	Rotatingmid = false
-
+	Time = {0, 0, 0, 10}
+	Rotate = false
+	speed = tonumber(SKIN:GetVariable('Speed'))
 	
 	scale = tonumber(SKIN:GetVariable('Scale'))/6
 	offset = 0
@@ -67,62 +65,59 @@ function Update()
 	
 	Time[3] = math.floor(((SKIN:GetMeasure("MeasureTime"):GetValue())%3600)/600)
 	Time[4] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
-
 	
-	for li=1,4 do
-		if(Oldtime[li] ~= Time[li]) then
+	-- Time[1] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
+	-- Time[2] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
+	
+	-- Time[3] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
+	-- Time[4] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
+	if((not Rotate) and Oldtime[4] ~= Time[4]) then
+		for li=1,4 do
 			Oldtime[li] = Time[li]
 			for i=1,6 do
 				for j=1,4 do
 					for k=1,2 do
 						-- print(Oldarr[li][i][j][k])
-						Oldarr[li][i][j][k] = SKIN:GetMeasure('Measure'..li..i..j..k):GetNumberOption('Formula')
+						Oldarr[li][i][j][k] = SKIN:GetMeasure('Measure'..li..i..j..(3-k)):GetNumberOption('Formula')
 					end
 				end
 			end
-			Rotating[li] = true
-			if(li<=2) then
-				for i=1,6 do
-					for j=1,2 do
-						for k=1,2 do
-							Oldmidarr[i][j][k] = SKIN:GetMeasure('MeasureMid'..i..j..(3-k)):GetNumberOption('Formula')
-						end
-					end
-				end
-				Rotatingmid = true
 			end
-		end
-		if(Rotating[li]) then
-			T[li] = T[li] + 0.005
-			for i=1,6 do
-				for j=1,4 do
-					for k=1,2 do
-						SKIN:Bang('!SetOption', 'Measure'..li..i..j..k, 'Formula', Lerp(Oldarr[li][i][j][k], Arr[i][j][k][Oldtime[li]+1], T, li))
-					end
-				end
-			end
-			if(T[li] >= 1) then
-				Rotating[li] = false
-				T[li] = 0
-			end
-		end
-	end
-	if(Rotatingmid) then
-		Tmid[1] = Tmid[1] + 0.005
+		
 		for i=1,6 do
 			for j=1,2 do
 				for k=1,2 do
-					SKIN:Bang('!SetOption', 'MeasureMid'..i..j..k, 'Formula', Lerp(Oldmidarr[i][j][k], Midarr[i][j][k], Tmid, 1))
+					Oldmidarr[i][j][k] = SKIN:GetMeasure('MeasureMid'..i..j..(3-k)):GetNumberOption('Formula')
+				end
+			end
+		end	
+		Rotate = true
+	end
+	if(Rotate) then
+		T = T + speed
+		for li=1,4 do
+			for i=1,6 do
+				for j=1,4 do
+					for k=1,2 do
+						SKIN:Bang('!SetOption', 'Measure'..li..i..j..k, 'Formula', Lerp(Oldarr[li][i][j][k], Arr[i][j][k][Oldtime[li]+1]))
+					end
 				end
 			end
 		end
-		if(Tmid[1] >= 1) then
-			Rotatingmid = false
-			Tmid[1] = 0
+		for i=1,6 do
+			for j=1,2 do
+				for k=1,2 do
+					SKIN:Bang('!SetOption', 'MeasureMid'..i..j..k, 'Formula', Lerp(Oldmidarr[i][j][k], Midarr[i][j][k]))
+				end
+			end
+		end
+		if(T >= 1) then
+			Rotate = false
+			T = 0
 		end
 	end
 end
 
-function Lerp(old, new, temp, li)
-	return (temp[li]*(new+360) + (1-temp[li])*old)%360
+function Lerp(old, new)
+	return (T*(new+360) + (1-T)*old)%360
 end
