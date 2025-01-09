@@ -21,7 +21,10 @@ function Initialize()
 	Time = {0, 0, 0, 10}
 	Rotate = false
 	speed = tonumber(SKIN:GetVariable('Speed'))
-	
+	hr24 = 1
+	if(SKIN:GetVariable('MilitaryTime') == 'n') then
+		hr24 = 2
+	end
 	scale = tonumber(SKIN:GetVariable('Scale'))/6
 	offset = 0
 
@@ -68,9 +71,8 @@ function Update()
 	-- Time[3] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
 	-- Time[4] = math.floor((SKIN:GetMeasure("MeasureTime"):GetValue())/60)%10
 	if((not Rotate) and Oldtime[4] ~= Time[4]) then
-		
-		Time[1] = math.floor(((SKIN:GetMeasure("MeasureTime"):GetValue())%86400)/36000)
-		Time[2] = math.floor(((SKIN:GetMeasure("MeasureTime"):GetValue())%86400)/3600)%10
+		Time[1] = math.floor(((SKIN:GetMeasure("MeasureTime"):GetValue())%(86400/hr24))/36000)
+		Time[2] = math.floor(((SKIN:GetMeasure("MeasureTime"):GetValue())%(86400/hr24))/3600)%10
 		Time[3] = math.floor(((SKIN:GetMeasure("MeasureTime"):GetValue())%3600)/600)
 		resetSeconds()
 		for li=1,4 do
