@@ -1,4 +1,4 @@
-configa = open("ClockTemp.txt", "r")
+configa = open("ClockTemplate.txt", "r")
 config = open("ClockActual.txt", "w")
 config.write(configa.read() + '\n\n')
 
@@ -15,8 +15,10 @@ for i in range(1,5):
                 config.write(f"[Meter{i}{j}{k}{l}]\n")
                 config.write('Meter=ROUNDLINE\n')
                 config.write(f'MeasureName=Measure{i}{j}{k}{l}\n')
-                config.write('X=0\n')
-                config.write('Y=0\n')
+                config.write(f'X=0\n')
+                config.write(f'Y=0\n')
+                # config.write(f'X=((#PosScale#*4*{i})+(#PosScale*{k})+#Offset#+#Padding#)\n')
+                # config.write(f'Y=((#PosScale#*{j})+#Padding#)\n')
                 config.write('W=#PosScale#\n')
                 config.write('H=#PosScale#\n')
                 config.write('LineLength=#LineLength#\n')

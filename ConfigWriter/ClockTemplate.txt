@@ -1,14 +1,27 @@
 [Rainmeter]
 Update=10
 DynamicWindowSize=1
+MiddleMouseUpAction=!Refresh
+AccurateText=1
+DefaultWindowY=50%
+DefaultAnchorY=50%
+DefaultWindowX=5%
 
 [Variables]
 Scale=300
-Height=(#Scale#)
-Width=(#Scale#*3)
+Speed=0.004
+Color=255,255,255,255
+MilitaryTime='y'
+Padding=20
+BgColor=0,0,0,1
+Height=(#Scale#)+(#padding#*2)
+Width=(#Scale#*3)+(#padding#*2)
 LineLength=(#Scale#/12)-1
 PosScale=(#Scale#/6)
-Color=255,255,255,255
+
+[MeterBg]
+Meter=Shape
+Shape=Rectangle 0,0,#Width#,#Height#,20 | Fill Color #BgColor# | StrokeWidth 0
 
 [MeasureTime]
 Measure=Time
