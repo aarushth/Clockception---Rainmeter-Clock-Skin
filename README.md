@@ -1,5 +1,5 @@
 ## Clock made of clocks desktop widget for Rainmeter
 
 ### Install instructions
-##### -Download 'ClockceptionSkin.zip' folder
-##### -unzip and import into rainmeter like any other skin
+##### -Download 'Clockception_1.rmskin' folder
+##### -open and install
