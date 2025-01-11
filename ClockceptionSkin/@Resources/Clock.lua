@@ -27,7 +27,7 @@ function Initialize()
 	end
 	scale = tonumber(SKIN:GetVariable('Scale'))/6
 	offset = 0
-
+	padding = tonumber(SKIN:GetVariable('padding'))
 	Oldarr = {}
 	for i=1,4 do
 		Oldarr[i] = {}
@@ -40,8 +40,8 @@ function Initialize()
 				Oldarr[i][j][k] = {}
 				for l=1,2 do
 					Oldarr[i][j][k][l] = 0
-					SKIN:GetMeter('Meter'..i..j..k..l):SetY((j-1)*scale)
-					SKIN:GetMeter('Meter'..i..j..k..l):SetX(((i-1)*(scale*4))+((k-1)*scale)+offset)
+					SKIN:GetMeter('Meter'..i..j..k..l):SetY(((j-1)*scale)+padding)
+					SKIN:GetMeter('Meter'..i..j..k..l):SetX((((i-1)*(scale*4))+((k-1)*scale)+offset)+padding)
 				end
 			end
 		end
@@ -54,8 +54,8 @@ function Initialize()
 			Oldmidarr[i][j] = {}
 			for k=1,2 do
 				Oldmidarr[i][j][k] = nil
-				SKIN:GetMeter('MeterMid'..i..j..k):SetY((i-1)*scale)
-				SKIN:GetMeter('MeterMid'..i..j..k):SetX(((j-1)*scale)+(8*scale))
+				SKIN:GetMeter('MeterMid'..i..j..k):SetY(((i-1)*scale)+padding)
+				SKIN:GetMeter('MeterMid'..i..j..k):SetX((((j-1)*scale)+(8*scale))+padding)
 			end
 		end
 	end
